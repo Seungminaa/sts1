@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.emp.mapper.EmpMapper">
+	<sql id="condition">
+		<where>
+		<if test="vo.departmentId != null">
+			department_id = #{vo.departmentId}
+		</if>
+		<if test="vo.firstName != null">
+			AND first_name = #{vo.firstName}
+		</if>
+		<if test="vo.managerId != null">
+			AND manager_id = #{vo.managerId}
+		</if>
+		<if test="svo.employeeIds != null">
+			AND employee_id
+			<foreach collection="svo.employeeIds" item="empid" open="in (" close=")" separator=",">
+				#{empid}
+			</foreach>
+		</if>
+		ORDER by first_name
+		</where>
+	</sql>
+	<resultMap type="EmpVO" id="empResultMap">
+		<id property="employeeId" column="EMPLOYEE_ID"></id>
+		<result property="firstName" column="FIRST_NAME"/>
+		<result property="phone" column="PHONE_NUMBER"/>
+	</resultMap>
+
+	<select id="getEmpList" resultMap="empResultMap">
+	select * from (select ROWNUM as rn, a.* from (
+		SELECT EMPLOYEE_ID
+		       ,FIRST_NAME
+               ,LAST_NAME
+               ,EMAIL
+               ,PHONE_NUMBER "phone"
+               ,HIRE_DATE
+               ,JOB_ID
+               ,SALARY
+               ,COMMISSION_PCT
+               ,MANAGER_ID
+               ,DEPARTMENT_ID
+		FROM employees e
+		<include refid="condition"></include>
+	<![CDATA[
+	) a where ROWNUM <= #{svo.end}) b where rn >= #{svo.start}
+	]]>
+	</select>
+	
+	<insert id="insertEmp" parameterType="EmpVO">
+		<selectKey keyProperty="employeeId" order="BEFORE" resultType="int">
+			select employees_seq.nextval from dual
+		</selectKey>
+	
+		INSERT into employees(
+								EMPLOYEE_ID
+								,FIRST_NAME
+								,LAST_NAME
+								,EMAIL
+								,HIRE_DATE
+								,JOB_ID
+								<if test="salary != null">
+								,SALARY
+								</if>
+								<if test="managerId != null">
+								,MANAGER_ID
+								</if>
+								<if test="departmentId != null">
+								,DEPARTMENT_ID
+								</if>
+		) values (
+								#{employeeId}
+								,#{firstName}
+								,#{lastName}
+								,#{email}
+								,#{hireDate}
+								,#{jobId}
+								<if test="salary != null">
+								,#{salary}
+								</if>
+								<if test="managerId != null">
+								,#{managerId}
+								</if>
+								<if test="departmentId != null">
+								,#{departmentId}
+								</if>
+		) 
+	</insert>
+	
+	<delete id="deleteEmp">
+		delete from employees where EMPLOYEE_ID = #{employeeId}
+	</delete>
+	
+	<select id="getStat" resultType="map">
+		select d.department_id "id", COUNT(*) as "cnt", d.department_name "name" 
+		from employees e, departments d 
+		where e.department_id = d.department_id and d.department_id is not null
+        GROUP by d.department_id, d.department_name
+	</select>
+	
+	<select id="getEmpInfo" parameterType="int" resultType="EmpVO">
+		SELECT *
+		FROM employees 
+		WHERE employee_id = #{employeeId}
+	</select>
+	
+</mapper>
