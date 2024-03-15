@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>사원상세조회</h2>
+	<form action="/delete" method="post">
+	[[${emp.firstName}]]
+	<input type="text" name="employeeId" th:value="${emp.employeeId}"> 
+	
+	<button>삭제</button>
+	</form>
+</body>
+</html>

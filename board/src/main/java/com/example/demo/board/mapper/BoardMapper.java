@@ -5,11 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.board.BoardVO;
-import com.example.demo.board.searchVO;
+import com.example.demo.board.searchVO1;
 
 @Mapper
 public interface BoardMapper {
-	List<BoardVO> getBoardList(BoardVO vo, searchVO svo);
+	List<BoardVO> getBoardList(BoardVO vo, searchVO1 svo);
 	BoardVO getBoardInfo(BoardVO vo);
 	int insertBoard(BoardVO vo);
 	int deleteBoard(BoardVO vo);

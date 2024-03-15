@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.board.BoardVO;
-import com.example.demo.board.searchVO;
+import com.example.demo.board.searchVO1;
 import com.example.demo.board.mapper.BoardMapper;
 
 
@@ -23,7 +23,7 @@ class BoardApplicationTests {
 	//@Test
 	public void 게시글검색() {
 		BoardVO vo = new BoardVO();
-		searchVO svo = new searchVO();
+		searchVO1 svo = new searchVO1();
 		
 		List<BoardVO> list = mapper.getBoardList(vo,svo);
 		for(BoardVO bod : list) {
