@@ -111,4 +111,26 @@
 		WHERE employee_id = #{employeeId}
 	</select>
 	
+	<update id="updateEmp" parameterType="EmpVO">
+		UPDATE employees
+		<set>
+			<if test="firstName != null">
+			FIRST_NAME = #{firstName},
+			</if>
+			<if test="lastName != null">
+			LAST_NAME = #{lastName},
+			</if>
+			<if test="hireDate != null">
+			HIRE_DATE = #{hireDate},
+			</if>
+			<if test="jobId != null">
+			JOB_ID = #{jobId},
+			</if>
+			<if test="email != null">
+			EMAIL = #{email},
+			</if>
+		</set>
+		WHERE EMPLOYEE_ID = #{employeeId}
+	</update>
+	
 </mapper>

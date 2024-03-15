@@ -6,11 +6,19 @@
 </head>
 <body>
 <h2>사원상세조회</h2>
-	<form action="/delete" method="post">
-	[[${emp.firstName}]]
-	<input type="text" name="employeeId" th:value="${emp.employeeId}"> 
+	<form action="/update" method="post">
 	
-	<button>삭제</button>
+	employeeId : <input type="text" name="employeeId" th:value="${emp.employeeId}"> 
+	firstName : <input name="firstName" th:value="${emp.firstName}">
+	lastName : <input name="lastName" th:value="${emp.lastName}">
+	hireDate : <input name="hireDate" th:value="${#dates.format(emp.hireDate,'yyyy/MM/dd')}">
+	jobId : <select name="jobId" >
+			  <option value="IT_PROG">Programmer</option>
+			  <option value="ST_MAN">Stock Manager</option>
+		    </select>
+	이메일 : <input name="email" th:value="${emp.email}">
+	<a th:href="@{/delete/{employeeId}(employeeId=${emp.employeeId})}">삭제</a>
+	<button>수정</button>
 	</form>
 </body>
 </html>

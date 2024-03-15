@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.emp.EmpVO;
+import com.example.demo.emp.searchVO;
 import com.example.demo.emp.mapper.EmpMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -89,8 +91,27 @@ public class EmpController {
 	
 
 	@RequestMapping("/empList")
-	public String empList(Model model){ 
-		model.addAttribute("empList", mapper.getEmpList(null,null));
+	public String empList(Model model,EmpVO vo,searchVO svo){ 
+		model.addAttribute("companyName", "<i><font color='red'>예담주식회사</font></i>");
+		model.addAttribute("empList", mapper.getEmpList(vo,svo));
 	return "empList"; 
+	}
+	
+	
+	
+	
+	
+	// 03월15일
+	@GetMapping("/update/{empId}") // 주소값으로 넘기는건 pathVariable 사용필요
+	public String update(@PathVariable int empId) {
+		System.out.println(empId);
+		return "index";
+	}
+	
+	@GetMapping("/delete") //쿼리문은 매개변수로 넣으면 됨, 뷰에서 파라미터 변수명과 매개변수명이 동일해야함
+	public String delete(int employeeId,String name) {
+		System.out.println(employeeId);
+		System.out.println(name);
+		return "index";
 	}
 }

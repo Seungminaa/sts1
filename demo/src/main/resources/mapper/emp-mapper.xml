@@ -19,8 +19,8 @@
 				#{empid}
 			</foreach>
 		</if>
-		ORDER by first_name
 		</where>
+		ORDER by first_name
 	</sql>
 	<resultMap type="EmpVO" id="empResultMap">
 		<id property="employeeId" column="EMPLOYEE_ID"></id>

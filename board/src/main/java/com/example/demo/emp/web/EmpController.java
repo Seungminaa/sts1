@@ -70,12 +70,19 @@ public class EmpController {
 	}
 
 	//수정처리
-	
+	@PostMapping("/update")
+	public String update(EmpVO vo) {
+		if(mapper.updateEmp(vo)>0) {
+			System.out.println("수정완료");
+		}
+		
+		return "redirect:emp/list";
+	}
 	
 	
 	//삭제처리
-	@PostMapping("/delete")
-	public String delete(@RequestParam String employeeId) {
+	@PostMapping("/delete/{employeeId}")
+	public String delete(@PathVariable String employeeId) {
 		
 		EmpVO vo = new EmpVO();  
 		vo.setEmployeeId(Integer.parseInt(employeeId));
@@ -96,11 +103,6 @@ public class EmpController {
 		return "emp/info";
 	}
 	
-//	//상세조회 페이지 이동
-//	@RequestMapping("/emp/info")
-//	public void info() {
-//		
-//	}
 	
 	//목록페이지 이동
 	@RequestMapping("/emp/list")

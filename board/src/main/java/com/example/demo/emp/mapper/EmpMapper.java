@@ -17,4 +17,5 @@ public interface EmpMapper {
 	 int insertEmp(EmpVO empVO);
 	 int deleteEmp(EmpVO empVO);
 	 List<Map<String, Object>> getStat();
+	 int updateEmp(EmpVO empVO);
 }
