@@ -18,7 +18,8 @@
 		    </select>
 	이메일 : <input name="email" th:value="${emp.email}">
 	<a th:href="@{/delete/{employeeId}(employeeId=${emp.employeeId})}">삭제</a>
-	<button>수정</button>
+	<button type="submit">수정</button>
+	<a th:href="@{/emp/list}">리스트로 이동</a>
 	</form>
 </body>
 </html>

@@ -11,12 +11,16 @@
 			<th>employee_id</th>
 			<th>first_name</th>
 			<th>last_name</th>
+			<th>hire_date</th>
 		</tr>
-		<tr th:each="emp : ${empList}">
+		<tr th:each="emp : ${empList}" th:onclick="|location.href='@{/emp/info/{employeeId}(employeeId=${emp.employeeId})}'|">
 			<td th:text="${emp.employeeId}"></td>
 			<td th:text="${emp.firstName}"></td>
 			<td th:text="${emp.lastName}"></td>
 			<td th:text="${emp.hireDate}"></td>
+		</tr>
+		<tr>
+			<td><a th:href="@{/emp/insert}">등록페이지 이동</a></td>
 		</tr>
 	</table>
 </body>
