@@ -46,13 +46,9 @@
 								,TITLE
 								,CONTENT
 								,WRITER
-								<if test="writeDate != null">
 								,WRITE_DATE
-								</if>
-								<if test="clickCnt != null">
 								,CLICK_CNT
-								</if>
-								<if test="image != null">
+								<if test="image != null and image != ''">
 								,IMAGE
 								</if>
 		) values (
@@ -60,13 +56,9 @@
 								,#{title}
 								,#{content}
 								,#{writer}
-								<if test="writeDate != null">
 								,#{writeDate}
-								</if>
-								<if test="clickCnt != null">
-								,#{clickCnt}
-								</if>
-								<if test="image != null">
+								,0
+								<if test="image != null and image != ''">
 								,#{image}
 								</if>
 		) 
@@ -100,5 +92,10 @@
 		</set>
 		WHERE BOARD_NO = #{boardNo}
 	</update>
+	
+	<select id="getCount" resultType="Long">
+		select count(*)
+		from board
+	</select>
 	
 </mapper>

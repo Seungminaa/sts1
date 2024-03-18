@@ -13,5 +13,5 @@ public class ReplyController {
 	
 	final ReplyMapper mapper;
 	
-	@GetMapping()
+//	@GetMapping()
 }
