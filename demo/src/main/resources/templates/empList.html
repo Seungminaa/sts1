@@ -11,11 +11,41 @@
 	.oddRow{color:cyan;}
 	.backColor{background-color:#333333;}
 </style>
+<script th:inline="javascript">
+		let emplist = [[${empList}]]
+		console.log(emplist[0].firstName)
+		
+		function gopage(p){
+			frmSearch.page.value = p;
+			frmSearch.submit();
+			//location.href = 'empList?page=' + p
+		}
+	</script>
 </head>
 <body>
 <div  layout:fragment="content">
 	사원수<span th:text="${#lists.size(empList)}">15</span>명
 	회사명<span th:utext="${companyName}">...</span>
+	
+	<!-- 검색 폼 시작 -->
+	<form name="frmSearch">
+		<input type="hidden" name="page">
+		<select name="departmentId">
+			<option value=""> 선택
+			<option value="10">Administration
+			<option value="20">Marketing
+			<option value="50">Shipping
+			<option value="60">IT
+			<option value="80">Sales
+			<option value="90">Executive
+			<option value="110">Accounting
+		</select>
+		firstName<input name="firstName" th:value="${empVO.firstName}"><!-- 값이 유지됨 -->
+		managerId<input name="managerId" th:value="${empVO.managerId}">
+		<button type="button" onclick="gopage(1)">검색</button>
+	</form>
+	<!-- 검색 폼 끝 -->
+	
 	<table>
 		<tr>
 			<th>No</th>
@@ -44,14 +74,30 @@
 			</td>
 		</tr>
 	</table>
+	
+	<!-- 페이징 시작 --><!-- disabled : 비활성화 -->
+	<nav aria-label="...">
+	  <ul class="pagination">
+	    <li class="page-item" th:if="${paging.startPage} > 1">
+	        <a class="page-link" th:href="|javascript:gopage(${paging.startPage-1})|">Previous</a></li>
+
+	    <li th:each="num : *{#numbers.sequence(paging.startPage, paging.endPage)}" 
+	        class="page-item" 
+	        th:addclass="${num} == ${paging.page} ? active">
+	        <a class="page-link" th:href="|javascript:gopage(${num})|"  th:text="${num}">2</a></li>
+	    
+	    <li class="page-item" th:classappend="${paging.endPage} <= ${paging.lastPage} ? disabled">
+	        <a class="page-link" th:href="|javascript:gopage(${paging.endPage+1})|">Next</a></li>
+	  </ul>
+	</nav>
+	<!-- 페이징 종료 -->
+	
+	
 	<div class="footerSector" th:insert="~{footer :: addr}">여기에 삽입</div><!-- 폴더명이 필요한 경우 : ~{???/footer} / ~ : 해당필드를 가져옴 -->
 	<div class="footerSector" th:replace="~{footer :: copy}">여기가 바뀜</div><!-- replace 태그가 바뀜 -->
+	
 </div>
 
-	<script th:inline="javascript">
-		let emplist = [[${empList}]]
-		console.log(emplist[0].firstName)
-	</script>
 	
 </body>
 </html>

@@ -12,9 +12,14 @@ import com.example.demo.emp.searchVO;
 @Mapper
 public interface EmpMapper {
 
-	 List<EmpVO> getEmpList(@Param("vo") EmpVO vo,@Param("svo") searchVO svo);
+	 List<EmpVO> getEmpList(EmpVO vo,searchVO svo);
 	 EmpVO getEmpInfo(int employeeId);
 	 int insertEmp(EmpVO empVO);
 	 int deleteEmp(EmpVO empVO);
 	 List<Map<String, Object>> getStat();
+	 
+	 
+	 //@Select("select count(*) from employees")
+	 public long getCount(EmpVO vo,searchVO svo);
+	 
 }

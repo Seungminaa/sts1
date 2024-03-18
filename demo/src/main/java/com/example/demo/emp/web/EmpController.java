@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.common.Paging;
 import com.example.demo.emp.EmpVO;
 import com.example.demo.emp.searchVO;
 import com.example.demo.emp.mapper.EmpMapper;
@@ -91,8 +92,19 @@ public class EmpController {
 	
 
 	@RequestMapping("/empList")
-	public String empList(Model model,EmpVO vo,searchVO svo){ 
-		model.addAttribute("companyName", "<i><font color='red'>예담주식회사</font></i>");
+	public String empList(Model model,EmpVO vo,searchVO svo,Paging pvo){ 
+//		model.addAttribute("companyName", "<i><font color='red'>예담주식회사</font></i>");
+		
+		//페이징처리
+		pvo.setPageUnit(5); // 데이터수
+		pvo.setPageSize(3); //페이지번호
+		svo.setStart(pvo.getFirst());
+		svo.setEnd(pvo.getLast());
+		pvo.setTotalRecord(mapper.getCount(vo,svo));
+		model.addAttribute("paging",pvo);
+		
+		
+		//목록조회
 		model.addAttribute("empList", mapper.getEmpList(vo,svo));
 	return "empList"; 
 	}

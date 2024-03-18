@@ -4,13 +4,13 @@
 <mapper namespace="com.example.demo.emp.mapper.EmpMapper">
 	<sql id="condition">
 		<where>
-		<if test="vo.departmentId != null">
+		<if test="vo.departmentId != null and vo.departmentId != ''">
 			department_id = #{vo.departmentId}
 		</if>
-		<if test="vo.firstName != null">
-			AND first_name = #{vo.firstName}
+		<if test="vo.firstName != null and vo.firstName != '' ">
+			AND first_name like '%' || #{vo.firstName} || '%'
 		</if>
-		<if test="vo.managerId != null">
+		<if test="vo.managerId != null and vo.managerId != '' ">
 			AND manager_id = #{vo.managerId}
 		</if>
 		<if test="svo.employeeIds != null">
@@ -27,6 +27,11 @@
 		<result property="firstName" column="FIRST_NAME"/>
 		<result property="phone" column="PHONE_NUMBER"/>
 	</resultMap>
+
+	<select id="getCount" resultType="Long">
+		select count(*)
+		from employees
+	</select>
 
 	<select id="getEmpList" resultMap="empResultMap">
 	select * from (select ROWNUM as rn, a.* from (
