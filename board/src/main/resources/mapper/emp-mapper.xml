@@ -94,7 +94,7 @@
 		) 
 	</insert>
 	
-	<delete id="deleteEmp">
+	<delete id="deleteEmp" parameterType="EmpVO">
 		delete from employees where EMPLOYEE_ID = #{employeeId}
 	</delete>
 	

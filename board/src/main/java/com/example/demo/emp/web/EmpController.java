@@ -53,12 +53,12 @@ public class EmpController {
 				vo.setPhoto(photoFile.getOriginalFilename());
 				System.out.println("파일명 : " + photoFile.getOriginalFilename());
 				
-				int result = mapper.insertEmp(vo);
-				if(result>0) {
-					System.out.println("등록완료");
-				}
 			}
 		
+		}
+		int result = mapper.insertEmp(vo);
+		if(result>0) {
+			System.out.println("등록완료");
 		}
 		return "redirect:/emp/list";
 	}
@@ -76,12 +76,12 @@ public class EmpController {
 			System.out.println("수정완료");
 		}
 		
-		return "redirect:emp/list";
+		return "redirect:/emp/list";
 	}
 	
 	
 	//삭제처리
-	@PostMapping("/delete/{employeeId}")
+	@RequestMapping("/delete/{employeeId}")
 	public String delete(@PathVariable String employeeId) {
 		
 		EmpVO vo = new EmpVO();  
@@ -90,7 +90,7 @@ public class EmpController {
 			System.out.println("삭제완료");
 		};
 		
-		return "redirect:emp/list";
+		return "redirect:/emp/list";
 	}
 	
 	//상세조회

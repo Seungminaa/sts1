@@ -18,7 +18,11 @@ public class EmpVO {
 	String firstName;
 	String lastName;
 	String email;
+<<<<<<< HEAD
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+=======
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+>>>>>>> branch 'main' of https://github.com/Seungminaa/sts1.git
 	Date hireDate;
 	Integer salary;
 	String jobId;
