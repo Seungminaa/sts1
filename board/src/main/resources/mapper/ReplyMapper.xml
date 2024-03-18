@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.board.mapper.ReplyMapper">
+	
+	<insert id="insert" parameterType="ReplyVO">
+		INSERT into board(
+								RNO
+								,BNO
+								,REPLY
+								,REPLYER
+		) values (
+								seq_reply.nextval
+								,#{bno}
+								,#{reply}
+								,#{replyer}
+		) 
+	</insert>
+	
+	<select id="read" resultType="ReplyVO">
+		select 	RNO
+				,BNO
+				,REPLY
+				,REPLYER
+				,REPLYDATE
+				,UPDATEDATE
+		from tbl_reply
+		WHERE RNO= #{rno}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_reply where rno = #{rno}
+	</delete>
+	
+	<update id="update" parameterType="ReplyVO">
+		UPDATE tbl_reply
+		<set>
+			REPLY = #{reply},
+			UPDATEDATE = sysdate
+		</set>
+		WHERE RNO = #{rno}
+	</update>
+	
+</mapper>
