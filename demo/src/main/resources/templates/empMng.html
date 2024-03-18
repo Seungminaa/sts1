@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>empMng.html(CRUD)</title>
+
+</head>
+<body>
+<div layout:fragment="content">
+	<h3>사원목록</h3>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>employee_id</th>
+					<th>NAME</th>
+					<th>last_name</th>
+					<th>hire_date</th>
+					<th>salary</th>
+					<th>보너스</th>
+					<th>수정/삭제</th>
+				</tr>
+			</thead>
+			<tbody id="emplist">
+				<!-- <tr>
+					<td>1</td>
+					<td>100</td>
+					<td>scott</td>
+					<td>2023/10/10</td>
+					<td>100000</td>
+					<td><button>신청</button><button>미신청</button></td>
+					<td><button type="button" onclick="move(100)">조회</button></td>
+				</tr> -->
+			</tbody>
+		</table>
+	</div>
+	
+	<h3>사원(등록,조회)</h3>
+	<form method="post" name="frm">
+		lastName<input name="lastName">
+		hireDate<input name="hireDate">
+		jobId<select name="jobId" >
+			<option value="IT_PROG">Programmer</option>
+			<option value="ST_MAN">Stock Manager</option>
+		</select>
+		이메일<input name="email">
+		<button type="button" onclick="saveReq()">등록</button>
+	</form>
+	
+	
+	<script>
+	listReq();
+	
+	
+	//리스트 요청	
+	function listReq(){
+		fetch("/ajax/empList")
+			.then(res => res.json())
+			.then(res => listRes(res))
+	}
+		
+	function dateFormat(dt){
+		let date = new Date(dt);
+		let year = date.getFullYear();
+		let month = ('0' + (date.getMonth() + 1)).slice(-2);
+		let day = ('0' + date.getDate()).slice(-2);
+		dt = `${year}-${month}-${day}`;
+		return dt
+	}
+		
+	//리스트 응답
+	function listRes(res){
+		let i = 0;
+		for(let emp of res){
+		let bonusBtn = `<button>신청</button>`
+		if(emp.salary > 10000){
+			bonusBtn = `<button>미신청</button>`
+		}
+			let newTag = 
+				`<tr>
+			<td>${++i}</td>
+			<td onclick="infoReq(${emp.employeeId})">${emp.employeeId}</td>
+			<td>${emp.firstName} ${emp.lastName}</td>
+			<td>${dateFormat(emp.hireDate)}</td>
+			<td>${emp.salary}</td>
+			<td>${bonusBtn}</td>
+			<td><button type="button" onclick="move(${emp.employeeId})">조회</button></td>
+		</tr>`
+		emplist.innerHTML += newTag;
+		
+		}
+	}
+	//상세조회 요청
+	function infoReq(employeeId){
+		fetch(`/ajax/emp/${employeeId}`)
+		.then(res=>res.json())
+		.then(res=>infoRes(res))
+	}
+	//상세조회 응답
+	function infoRes(res){
+		//input tag에 표시
+		frm.lastName.value = res.lastName;
+		frm.email.value = res.email;
+		frm.jobId.value = res.jobId;
+		frm.hireDate.value = res.hireDate;
+		
+		
+	}
+	
+	//등록 요청
+	function saveReq(){
+		//1. queryString
+		/*const lastName = frm.lastName.value;
+		const email = frm.email.value;
+		const hireDate = frm.hireDate.value;
+		const jobId = frm.jobId.value;
+		let param = `lastName=${lastName}&email=${email}&hireDate=${hireDate}&jobId=${jobId}`
+		fetch("/ajax/emp",{
+			method:"post",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body:param
+		})*/
+		
+		//2.FormData
+		/*let param = new FormData(document.frm);
+		fetch("/ajax/emp",{
+			method :"post",
+			body:param
+		})*/
+		
+		//3.JsonString(payload)
+		const lastName=frm.lastName.value;
+		const email=frm.email.value;
+		const jobId=frm.jobId.value;
+		const hireDate=frm.hireDate.value;
+		let param = {lastName, email, jobId, hireDate }
+		fetch("/ajax/emp",{
+			method : "post",
+			headers: {
+		      	"Content-Type": "application/json",
+		    },
+			body : JSON.stringify(param)
+		})
+		
+		
+		.then(res => res.json())
+		.then(res => saveRes(res))
+	}
+	
+	//등록 응답
+	function saveRes(res){
+		listReq();
+	}
+	
+	</script>
+</div>
+</body>
+</html>

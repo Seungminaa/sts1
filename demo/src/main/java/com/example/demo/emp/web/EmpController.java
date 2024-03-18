@@ -109,7 +109,14 @@ public class EmpController {
 	return "empList"; 
 	}
 	
-	
+	// 3월18일
+		@RequestMapping("/info/{empId}") // 주소값으로 넘기는건 pathVariable 사용필요
+		public String info(@PathVariable int empId, Model model) {
+			model.addAttribute("emp",mapper.getEmpInfo(empId));
+			return "empInfo";
+		}
+		
+		
 	
 	
 	

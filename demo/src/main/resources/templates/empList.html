@@ -13,13 +13,22 @@
 </style>
 <script th:inline="javascript">
 		let emplist = [[${empList}]]
-		console.log(emplist[0].firstName)
 		
 		function gopage(p){
 			frmSearch.page.value = p;
 			frmSearch.submit();
 			//location.href = 'empList?page=' + p
 		}
+		function init(){
+			frmSearch.departmentId.value = "";
+			frmSearch.firstName.value = "";
+			frmSearch.managerId.value = "";
+		}
+		function move(empId){
+			frmSearch.action = '/info/' + empId
+			frmSearch.submit();
+		}
+		
 	</script>
 </head>
 <body>
@@ -28,21 +37,22 @@
 	회사명<span th:utext="${companyName}">...</span>
 	
 	<!-- 검색 폼 시작 -->
-	<form name="frmSearch">
+	<form name="frmSearch" th:object="${empVO}" action="empList"> <!-- object 값을 *형태로 꺼내씀 -->
 		<input type="hidden" name="page">
-		<select name="departmentId">
-			<option value=""> 선택
-			<option value="10">Administration
-			<option value="20">Marketing
-			<option value="50">Shipping
-			<option value="60">IT
-			<option value="80">Sales
-			<option value="90">Executive
-			<option value="110">Accounting
+		<select name="departmentId" th:value="*{departmentId}">
+			<option value="" th:selected="*{departmentId} == ''"> 선택
+			<option value="10" th:selected="*{departmentId} == '10'">Administration
+			<option value="20" th:selected="*{departmentId} == '20'">Marketing
+			<option value="50" th:selected="*{departmentId} == '50'">Shipping
+			<option value="60" th:selected="*{departmentId} == '60'">IT
+			<option value="80" th:selected="*{departmentId} == '80'">Sales
+			<option value="90" th:selected="*{departmentId} == '90'">Executive
+			<option value="110" th:selected="*{departmentId} == '110'">Accounting
 		</select>
-		firstName<input name="firstName" th:value="${empVO.firstName}"><!-- 값이 유지됨 -->
-		managerId<input name="managerId" th:value="${empVO.managerId}">
+		firstName<input name="firstName" th:value="*{firstName}"><!-- value 값이 유지됨 -->
+		managerId<input name="managerId" th:value="*{managerId}">
 		<button type="button" onclick="gopage(1)">검색</button>
+		<button type="button" onclick="init()">초기화</button> <!-- 초기화 type ="button"으로 onclick 이벤트 필요 -->
 	</form>
 	<!-- 검색 폼 끝 -->
 	
@@ -68,7 +78,8 @@
 			<td><button th:if="${emp.salary} < 10000">신청</button>
 			<button th:unless="${emp.salary} < 10000">미신청</button></td>
 			<td> <!-- localhost:8081/update/100 -->
-				<a th:href="@{/update/{id}(id=${emp.employeeId})}">수정</a>
+				<!-- <a th:href="@{/update/{id}(id=${emp.employeeId})}">수정</a> -->
+				<button type="button" th:onclick="move([[${emp.employeeId}]])">조회</button>
 				 <!-- localhost:8081/delete?employeeId=100&name=xxx -->
 				<a th:href="@{/delete(employeeId=${emp.employeeId},name=${emp.firstName})}">삭제</a>
 			</td>
