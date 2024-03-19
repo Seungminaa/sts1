@@ -21,5 +21,5 @@ public class BoardVO {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	Date writeDate;
 	String image;
-	Integer clickCnt;
+	int clickCnt;
 }

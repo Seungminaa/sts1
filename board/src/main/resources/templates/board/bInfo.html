@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>글정보</h3>
+	<form method="post" name="frm">	
+	<div>
+		<span>No</span>
+		<input th:value="${board.boardNo}" name="boardNo" readonly>
+	</div>
+	<div>
+		<span>제목</span>
+		<input th:value="${board.title}" name="title">
+	</div>
+	<div>
+		<span>내용</span>
+		<input th:value="${board.content}" name="content">
+	</div>
+	<div>
+		<span>작성자</span>
+		<input th:value="${board.writer}" name="writer">
+	</div>
+	<div>
+		<span>등록일자</span>
+		<input th:value="${#dates.format(board.writeDate,'yyyy/MM/dd')}" name="writeDate" readonly>
+	</div>
+	<div>
+		<span>이미지</span>
+		<input th:value="${board.image}" name="image">
+	</div>
+	<div>
+		<span>조회수</span>
+		<input th:value="${board.clickCnt}" name="clickCnt" readonly>
+	</div>
+	<div>
+		<button type="button" id="listBtn">글목록</button>
+		<button type="button" id="saveBtn">수정</button>
+		<button type="button" id="delBtn">삭제</button>
+	</div>
+	</form>
+	
+	<!-- 댓글 -->
+	<h3>댓글목록</h3>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>내용</th>
+					<th>작성자</th>
+					<th>작성일자</th>
+					<th>수정일자</th>
+				</tr>
+			</thead>
+			<tbody id="replyList">
+				<!-- <tr>
+					<td>1</td>
+					<td>scott</td>
+					<td>scott</td>
+					<td>2023/10/10</td>
+					<td>2023/10/10</td>
+				</tr> -->
+			</tbody>
+		</table>
+		<!-- 페이징자리 -->
+		<div id="nav"></div>
+		
+	
+	<h3>댓글등록</h3>
+	<form method="post" name="frm">
+		<input type="hidden" name="rno">
+		<input type="hidden" name="bno" th:value="${board.boardNo}">
+		<input type="hidden" name="replyer" th:value="${board.writer}">
+		<input type="hidden" name="replyDate" th:value="${#calendars.format(#calendars.createNow(),'yyyy/MM/dd')}">
+		<input type="hidden" name="updateDate" th:value="${#calendars.format(#calendars.createNow(),'yyyy/MM/dd')}">
+		내용 <input name="reply">
+		<button type="button" id="reSaveBtn">등록</button>
+	</form>
+	</div>
+	<!-- 댓글 -->
+	
+	<script>
+	listBtn.addEventListener("click",e => {
+		location.href='/board/bList'
+	})
+	
+	saveBtn.addEventListener("click",e => {
+		frm.action = '/board/bUpdate' 
+		frm.submit();
+	})
+	
+	delBtn.addEventListener("click",e => {
+		frm.action = '/board/bDelete/' + [[${board.boardNo}]]
+		frm.submit();
+	})
+	/*reSaveBtn.addEventListener("click",e => {
+		frm.action = '/reply/bDelete/' + [[${board.boardNo}]]
+		frm.submit();
+	})*/
+
+</script>
+</body>
+</html>

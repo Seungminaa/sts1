@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>bList.html</title>
+<style>
+	.firstRow{ color:yellowgreen;}
+	.oddRow{color:cyan;}
+	.backColor{background-color:#333333;}
+</style>
+<script th:inline="javascript">
+		let boardlist = [[${boardList}]]
+		
+		function gopage(p){
+			frmSearch.page.value = p;
+			frmSearch.submit();
+		}
+		function init(){
+			frmSearch.title.value = "";
+			frmSearch.writer.value = "";
+		}
+		function move(boardNo){
+			location.href='/board/bInfo/'+ boardNo
+		}		
+	</script>
+</head>
+<body>
+<div layout:fragment="content">
+	<!-- 검색 폼 시작 -->
+	<form name="frmSearch" th:object="${boardVO}" action="bList">
+		<input type="hidden" name="page">
+		제목 <input name="title" th:value="*{title}">
+		내용 <input name="content" th:value="*{content}">
+		작성자 <input name="writer" th:value="*{writer}">
+		<button type="button" onclick="gopage(1)">검색</button>
+		<button type="button" onclick="init()">초기화</button>
+	</form>
+	<!-- 검색 폼 끝 -->
+	
+	<table>
+		<tr>
+			<th>No</th>
+			<th>제목</th>
+			<th>내용</th>
+			<th>작성자</th>
+			<th>등록일자</th>
+			<th>이미지</th>
+			<th>조회수</th>
+		</tr>
+		<tr th:each="board : ${boardList}" th:onclick="move([[${board.boardNo}]])">
+			<td th:text="${board.boardNo}">100</td>
+			<td th:text="${board.title}">제목</td>
+			<td th:text="${board.content}">내용</td>
+			<td th:text="${board.writer}">작성자</td>
+			<td th:text="${#dates.format(board.writeDate,'yyyy년 MM월 dd일')}">2010-10-10</td>
+			<td th:text="${board.image}">이미지</td>
+			<td th:text="${board.clickCnt}">클릭수</td>
+		</tr>
+	</table>
+	
+	<!-- 페이징 시작 --><!-- disabled : 비활성화 -->
+	<nav aria-label="...">
+	  <ul class="pagination">
+	    <li class="page-item" th:if="${paging.startPage} > 1">
+	        <a class="page-link" th:href="|javascript:gopage(${paging.startPage-1})|">Previous</a></li>
+
+	    <li th:each="num : *{#numbers.sequence(paging.startPage, paging.endPage)}" 
+	        class="page-item" 
+	        th:addclass="${num} == ${paging.page} ? active">
+	        <a class="page-link" th:href="|javascript:gopage(${num})|"  th:text="${num}">2</a></li>
+	    
+	    <li class="page-item" th:classappend="${paging.endPage} <= ${paging.lastPage} ? disabled">
+	        <a class="page-link" th:href="|javascript:gopage(${paging.endPage+1})|">Next</a></li>
+	  </ul>
+	</nav>
+	<!-- 페이징 종료 -->
+	
+	<div>
+		<button type="button" id="insertBtn">글등록</button>
+	</div>
+</div>
+<script>
+	insertBtn.addEventListener("click",e => {
+		location.href='/board/bInsert'
+	})
+</script>
+</body>
+</html>

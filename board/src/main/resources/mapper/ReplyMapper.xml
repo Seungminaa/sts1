@@ -3,8 +3,8 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.board.mapper.ReplyMapper">
 	
-	<insert id="insert" parameterType="ReplyVO">
-		INSERT into board(
+	<insert id="insertReply" parameterType="ReplyVO">
+		INSERT into tbl_reply(
 								RNO
 								,BNO
 								,REPLY
@@ -17,7 +17,7 @@
 		) 
 	</insert>
 	
-	<select id="read" resultType="ReplyVO">
+	<select id="readReply" resultType="ReplyVO">
 		select 	RNO
 				,BNO
 				,REPLY
@@ -28,11 +28,11 @@
 		WHERE RNO= #{rno}
 	</select>
 	
-	<delete id="delete">
+	<delete id="deleteReply">
 		delete from tbl_reply where rno = #{rno}
 	</delete>
 	
-	<update id="update" parameterType="ReplyVO">
+	<update id="updateReply" parameterType="ReplyVO">
 		UPDATE tbl_reply
 		<set>
 			REPLY = #{reply},

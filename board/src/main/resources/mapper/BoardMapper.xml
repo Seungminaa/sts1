@@ -14,20 +14,20 @@
 				,IMAGE
 		from board
 		<where>
-		<if test="vo.title != null">
-		TITLE = #{vo.title}
+		<if test="vo.title != null and vo.title != ''">
+		TITLE like '%' || #{vo.title} || '%'
 		</if>
-		<if test="vo.content != null">
-		CONTENT = #{vo.content}
+		<if test="vo.content != null and vo.content != ''">
+		AND CONTENT like '%' || #{vo.content} || '%'
 		</if>
-		<if test="vo.writer != null">
-		WRITER = #{vo.writer}
+		<if test="vo.writer != null and vo.writer != ''">
+		AND WRITER like '%' || #{vo.writer} || '%'
 		</if>
 		</where>
+		ORDER by BOARD_NO
 	<![CDATA[
 	) a where ROWNUM <= #{svo.end}) b where rn >= #{svo.start}
 	]]>
-	
 	</select>
 	
 	<select id="getBoardInfo" resultType="BoardVO">
@@ -57,7 +57,7 @@
 								,#{content}
 								,#{writer}
 								,#{writeDate}
-								,0
+								,#{clickCnt}
 								<if test="image != null and image != ''">
 								,#{image}
 								</if>
