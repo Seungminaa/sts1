@@ -60,25 +60,41 @@ public class EmpController {
 //	public List<EmpVO> ajaxEmp(){
 //		return empService.getEmpList(null,null);
 //	}
-	
-	
+	@GetMapping("/insert")
+	public void insert() {
+		
+	}
 	
 	@PostMapping("/insert")
 //	@ResponseBody
 	public ModelAndView insert(@ModelAttribute("emp") EmpVO vo) { // @ModelAttribute("emp") model의 이름변경
 		System.out.println(vo);
-		//커맨드 객체는 model에 추가됨
-		//model.addAttribute("empVO",vo);
-		//model.addAttribute("insertResult","success");
-		//mapper.insertEmp(vo);
 		
-		//ModelAndView : 뷰랑 데이터,상태값을 같이 넘겨줌(상태값 안넘기면 굳이 사용할 필요없음)
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("result");
+		mv.setViewName("home"); //view name으로 설정해야함
 		mv.addObject("insertResult","success");
-		mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); // 500번 애러
+		//mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); // 500번 애러
 		return mv;
 	}
+	
+	
+	
+//	@PostMapping("/insert")
+////	@ResponseBody
+//	public ModelAndView insert(@ModelAttribute("emp") EmpVO vo) { // @ModelAttribute("emp") model의 이름변경
+//		System.out.println(vo);
+//		//커맨드 객체는 model에 추가됨
+//		//model.addAttribute("empVO",vo);
+//		//model.addAttribute("insertResult","success");
+//		//mapper.insertEmp(vo);
+//		
+//		//ModelAndView : 뷰랑 데이터,상태값을 같이 넘겨줌(상태값 안넘기면 굳이 사용할 필요없음)
+//		ModelAndView mv = new ModelAndView();
+//		mv.setViewName("result");
+//		mv.addObject("insertResult","success");
+//		mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); // 500번 애러
+//		return mv;
+//	}
 	
 //	@RequestMapping("/update")
 //	@ResponseBody        //request.getParameter
