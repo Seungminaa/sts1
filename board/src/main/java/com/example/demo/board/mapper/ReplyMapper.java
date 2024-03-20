@@ -9,9 +9,13 @@ import com.example.demo.board.ReplyVO;
 
 @Mapper
 public interface ReplyMapper {
-	public int insertReply(ReplyVO vo);
-	public ReplyVO readReply(Long rno);
+//	public ReplyVO readReply(Long rno);
 	public int deleteReply(Long rno);
 	public int updateReply(ReplyVO reply);
-	public List<ReplyVO> getListWithPaging(BSearchVO svo, Long bno); 
+	
+	//등록
+	public int insertReply(ReplyVO vo);
+	//목록출력
+	public List<ReplyVO> getListWithPaging(ReplyVO vo, BSearchVO svo);
+	public long getCount(ReplyVO vo);
 }
