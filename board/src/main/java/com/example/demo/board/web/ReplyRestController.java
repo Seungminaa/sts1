@@ -3,6 +3,7 @@ package com.example.demo.board.web;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,11 +38,25 @@ public class ReplyRestController {
 		return map;
 	}
 	
-	//사원등록
+	//댓글등록
 	//formData
 	@PostMapping("/ajax/reply")
 	public ReplyVO save(ReplyVO vo) { 
 		replyService.register(vo);
+		return vo;
+	}
+	
+	//댓글수정
+	@PostMapping("/ajax/update")
+	public ReplyVO update(ReplyVO vo) {
+		replyService.modify(vo);
+		return vo;
+	}
+	
+	//댓글삭제
+	@GetMapping("/ajax/delete")
+	public ReplyVO delete(ReplyVO vo) {
+		replyService.remove(vo.getRno());
 		return vo;
 	}
 

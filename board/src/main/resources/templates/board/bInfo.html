@@ -53,6 +53,7 @@
 					<th>작성자</th>
 					<th>작성일자</th>
 					<th>수정일자</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody id="replyList">
@@ -70,13 +71,15 @@
 		
 	
 	<h3>댓글등록</h3>
-	<form method="post" name="frm">
+	<form method="post" name="frm2">
 		<input type="hidden" name="bno" th:value="${board.boardNo}">
-		<input type="hidden" name="replyer" th:value="${board.writer}">
+		<input type="hidden" name="rno">
 		<input type="hidden" name="replyDate" th:value="${#calendars.format(#calendars.createNow(),'yyyy/MM/dd')}">
 		<input type="hidden" name="updateDate" th:value="${#calendars.format(#calendars.createNow(),'yyyy/MM/dd')}">
 		내용 <input name="reply">
+		작성자 <input name="replyer">
 		<button type="button" id="reSaveBtn">등록</button>
+		<button type="button" id="reUpdate">수정</button>
 	</form>
 	</div>
 	<!-- 댓글 -->
@@ -84,10 +87,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script type="text/javascript" src="/js/replySC.js"></script>
 	<script>
-	replyService.listReq(1);
+	replyService.listReq(1,[[${board.boardNo}]]);
 	
 	function gopage(p) {
-		replyService.listReq(p)
+		replyService.listReq(p,[[${board.boardNo}]])
 	}
 	
 	listBtn.addEventListener("click",e => {
@@ -107,7 +110,12 @@
 	reSaveBtn.addEventListener("click",e => {
 		replyService.saveReq();
 	})
-
+	
+	reUpdate.addEventListener("click",e => {
+		replyService.updateReq();
+	})
+	
+	
 </script>
 </body>
 </html>

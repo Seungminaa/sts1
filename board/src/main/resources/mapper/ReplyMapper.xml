@@ -41,6 +41,7 @@
 		UPDATE tbl_reply
 		<set>
 			REPLY = #{reply},
+			REPLYER = #{replyer},
 			UPDATEDATE = sysdate
 		</set>
 		WHERE RNO = #{rno}
@@ -49,7 +50,7 @@
 	<select id="getCount" resultType="Long" parameterType="ReplyVO">
 		select count(*)
 		from tbl_reply
-		where RNO= #{rno}
+		where bno= #{bno}
 	</select>
 	
 </mapper>

@@ -9,9 +9,8 @@ import com.example.demo.board.ReplyVO;
 
 @Mapper
 public interface ReplyMapper {
-//	public ReplyVO readReply(Long rno);
-	public int deleteReply(Long rno);
-	public int updateReply(ReplyVO reply);
+	public int deleteReply(Long rno); //삭제
+	public int updateReply(ReplyVO reply); //수정
 	
 	//등록
 	public int insertReply(ReplyVO vo);

@@ -8,8 +8,8 @@ import com.example.demo.board.ReplyVO;
 
 public interface ReplyService {
 	public int register(ReplyVO vo); //등록
-	public int modify(ReplyVO vo);
-	public int remove(Long rno);
+	public int modify(ReplyVO vo); //수정
+	public int remove(Long rno); //삭제
 	public Map<String, Object> getList(ReplyVO vo,BSearchVO svo);
 	
 }
