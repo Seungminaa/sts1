@@ -17,15 +17,20 @@
 		) 
 	</insert>
 	
-	<select id="readReply" resultType="ReplyVO">
-		select 	RNO
-				,BNO
-				,REPLY
-				,REPLYER
-				,REPLYDATE
-				,UPDATEDATE
+	<select id="getListWithPaging" resultType="ReplyVO">
+		select * from (select ROWNUM as rn, a.* from (
+		select rno
+				,bno
+				,reply
+				,replyer
+				,replyDate
+				,updateDate
 		from tbl_reply
-		WHERE RNO= #{rno}
+		where bno = #{vo.bno}
+		ORDER by rno
+	<![CDATA[
+	) a where ROWNUM <= #{svo.end}) b where rn >= #{svo.start}
+	]]>
 	</select>
 	
 	<delete id="deleteReply">
@@ -40,5 +45,11 @@
 		</set>
 		WHERE RNO = #{rno}
 	</update>
+	
+	<select id="getCount" resultType="Long" parameterType="ReplyVO">
+		select count(*)
+		from tbl_reply
+		where RNO= #{rno}
+	</select>
 	
 </mapper>

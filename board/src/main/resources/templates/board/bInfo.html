@@ -71,7 +71,6 @@
 	
 	<h3>댓글등록</h3>
 	<form method="post" name="frm">
-		<input type="hidden" name="rno">
 		<input type="hidden" name="bno" th:value="${board.boardNo}">
 		<input type="hidden" name="replyer" th:value="${board.writer}">
 		<input type="hidden" name="replyDate" th:value="${#calendars.format(#calendars.createNow(),'yyyy/MM/dd')}">
@@ -82,7 +81,15 @@
 	</div>
 	<!-- 댓글 -->
 	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script type="text/javascript" src="/js/replySC.js"></script>
 	<script>
+	replyService.listReq(1);
+	
+	function gopage(p) {
+		replyService.listReq(p)
+	}
+	
 	listBtn.addEventListener("click",e => {
 		location.href='/board/bList'
 	})
@@ -96,10 +103,10 @@
 		frm.action = '/board/bDelete/' + [[${board.boardNo}]]
 		frm.submit();
 	})
-	/*reSaveBtn.addEventListener("click",e => {
-		frm.action = '/reply/bDelete/' + [[${board.boardNo}]]
-		frm.submit();
-	})*/
+	
+	reSaveBtn.addEventListener("click",e => {
+		replyService.saveReq();
+	})
 
 </script>
 </body>

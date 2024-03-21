@@ -1,6 +1,8 @@
 package com.example.demo.board.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +29,12 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public ReplyVO get(Long rno) {
-		// TODO Auto-generated method stub
-		return mapper.readReply(rno);
+	public Map<String, Object> getList(ReplyVO vo, BSearchVO svo) {
+		Map<String,Object> map = new HashMap<String, Object>();
+
+		map.put("data", mapper.getListWithPaging(vo, svo));
+		map.put("count", mapper.getCount(vo));
+		return map;
 	}
 
 	@Override
@@ -42,12 +47,6 @@ public class ReplyServiceImpl implements ReplyService{
 	public int remove(Long rno) {
 		// TODO Auto-generated method stub
 		return mapper.deleteReply(rno);
-	}
-
-	@Override
-	public List<ReplyVO> getList(BSearchVO svo, Long bno) {
-		// TODO Auto-generated method stub
-		return mapper.getListWithPaging(svo, bno);
 	}
 	
 }

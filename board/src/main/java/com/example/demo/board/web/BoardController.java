@@ -91,7 +91,7 @@ public class BoardController {
 		if (photofile != null) {
 			if (photofile.getSize() > 0) {
 				// 파일 생성
-				File file = new File("d:/upload", photofile.getOriginalFilename());
+				File file = new File("c:/upload", photofile.getOriginalFilename());
 				// 파일 저장
 				photofile.transferTo(file);
 				vo.setImage(photofile.getOriginalFilename());
