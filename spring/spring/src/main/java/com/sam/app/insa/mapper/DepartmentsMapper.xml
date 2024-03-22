@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.sam.app.insa.mapper.DepartmentsMapper">
+ 
+ 	<select id="getList" resultType="DepartmentsVO">
+ 		select 	DEPARTMENT_ID
+				,DEPARTMENT_NAME
+				,MANAGER_ID
+				,LOCATION_ID
+		from DEPARTMENTS
+ 	</select>
+ 
+</mapper>
