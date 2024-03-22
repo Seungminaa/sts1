@@ -14,6 +14,6 @@ public class AfterAdvice {
 		System.out.println("[log after]");
 		String name = jp.getSignature().getName();
 		System.out.println(name + ":");
-		System.out.println("return: " + retruning);
+		System.out.println("return: " + retruning); 
 	}
 }
